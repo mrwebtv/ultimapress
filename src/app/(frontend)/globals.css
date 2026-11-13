@@ -1,0 +1,423 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+
+@config '../../../tailwind.config.mjs';
+
+@custom-variant dark (&:is([data-theme='dark'] *));
+@custom-variant sm (@media (width >= theme(--breakpoint-sm)));
+@custom-variant md (@media (width >= theme(--breakpoint-md)));
+@custom-variant lg (@media (width >= theme(--breakpoint-lg)));
+@custom-variant xl (@media (width >= theme(--breakpoint-xl)));
+@custom-variant 2xl (@media (width >= theme(--breakpoint-2xl)));
+
+@layer base {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-weight: unset;
+    font-size: unset;
+  }
+}
+
+@plugin "@tailwindcss/typography";
+
+@source inline("lg:col-span-4");
+@source inline("lg:col-span-6");
+@source inline("lg:col-span-8");
+@source inline("lg:col-span-12");
+@source inline("border-border");
+@source inline("bg-card");
+@source inline("border-error");
+@source inline("bg-error/30");
+@source inline("border-success");
+@source inline("bg-success/30");
+@source inline("border-warning");
+@source inline("bg-warning/30");
+
+@theme {
+  --breakpoint-sm: 40rem;
+  --breakpoint-md: 48rem;
+  --breakpoint-lg: 64rem;
+  --breakpoint-xl: 80rem;
+  --breakpoint-2xl: 86rem;
+  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--up-font-body);
+  --font-heading: var(--up-font-heading);
+}
+
+@layer utilities {
+  .container {
+    width: 100%;
+    margin-inline: auto;
+    padding-inline: 1rem;
+  }
+
+  @variant sm {
+    .container {
+      max-width: var(--breakpoint-sm);
+    }
+  }
+
+  @variant md {
+    .container {
+      max-width: var(--breakpoint-md);
+      padding-inline: 2rem;
+    }
+  }
+
+  @variant lg {
+    .container {
+      max-width: var(--breakpoint-lg);
+    }
+  }
+
+  @variant xl {
+    .container {
+      max-width: var(--breakpoint-xl);
+    }
+  }
+
+  @variant 2xl {
+    .container {
+      max-width: var(--breakpoint-2xl);
+    }
+  }
+}
+
+:root {
+  --background: oklch(100% 0 0deg);
+  --foreground: oklch(14.5% 0 0deg);
+  --card: oklch(96.5% 0.005 265deg);
+  --card-foreground: oklch(14.5% 0 0deg);
+  --popover: oklch(100% 0 0deg);
+  --popover-foreground: oklch(14.5% 0 0deg);
+  --primary: oklch(20.5% 0 0deg);
+  --primary-foreground: oklch(98.5% 0 0deg);
+  --secondary: oklch(97% 0 0deg);
+  --secondary-foreground: oklch(20.5% 0 0deg);
+  --muted: oklch(97% 0 0deg);
+  --muted-foreground: oklch(55.6% 0 0deg);
+  --accent: oklch(97% 0 0deg);
+  --accent-foreground: oklch(20.5% 0 0deg);
+  --destructive: oklch(57.7% 0.245 27.325deg);
+  --destructive-foreground: oklch(57.7% 0.245 27.325deg);
+  --border: oklch(92.2% 0 0deg);
+  --input: oklch(92.2% 0 0deg);
+  --ring: oklch(70.8% 0 0deg);
+  --chart-1: oklch(64.6% 0.222 41.116deg);
+  --chart-2: oklch(60% 0.118 184.704deg);
+  --chart-3: oklch(39.8% 0.07 227.392deg);
+  --chart-4: oklch(82.8% 0.189 84.429deg);
+  --chart-5: oklch(76.9% 0.188 70.08deg);
+  --radius: 0.625rem;
+  --sidebar: oklch(98.5% 0 0deg);
+  --sidebar-foreground: oklch(14.5% 0 0deg);
+  --sidebar-primary: oklch(20.5% 0 0deg);
+  --sidebar-primary-foreground: oklch(98.5% 0 0deg);
+  --sidebar-accent: oklch(97% 0 0deg);
+  --sidebar-accent-foreground: oklch(20.5% 0 0deg);
+  --sidebar-border: oklch(92.2% 0 0deg);
+  --sidebar-ring: oklch(70.8% 0 0deg);
+  --success: oklch(78% 0.08 200deg);
+  --warning: oklch(89% 0.1 75deg);
+  --error: oklch(75% 0.15 25deg);
+}
+
+[data-theme='dark'] {
+  --background: oklch(14.5% 0 0deg);
+  --foreground: oklch(98.5% 0 0deg);
+  --card: oklch(17% 0 0deg);
+  --card-foreground: oklch(98.5% 0 0deg);
+  --popover: oklch(14.5% 0 0deg);
+  --popover-foreground: oklch(98.5% 0 0deg);
+  --primary: oklch(98.5% 0 0deg);
+  --primary-foreground: oklch(20.5% 0 0deg);
+  --secondary: oklch(26.9% 0 0deg);
+  --secondary-foreground: oklch(98.5% 0 0deg);
+  --muted: oklch(26.9% 0 0deg);
+  --muted-foreground: oklch(70.8% 0 0deg);
+  --accent: oklch(26.9% 0 0deg);
+  --accent-foreground: oklch(98.5% 0 0deg);
+  --destructive: oklch(39.6% 0.141 25.723deg);
+  --destructive-foreground: oklch(63.7% 0.237 25.331deg);
+  --border: oklch(26.9% 0 0deg);
+  --input: oklch(26.9% 0 0deg);
+  --ring: oklch(43.9% 0 0deg);
+  --chart-1: oklch(48.8% 0.243 264.376deg);
+  --chart-2: oklch(69.6% 0.17 162.48deg);
+  --chart-3: oklch(76.9% 0.188 70.08deg);
+  --chart-4: oklch(62.7% 0.265 303.9deg);
+  --chart-5: oklch(64.5% 0.246 16.439deg);
+  --sidebar: oklch(20.5% 0 0deg);
+  --sidebar-foreground: oklch(98.5% 0 0deg);
+  --sidebar-primary: oklch(48.8% 0.243 264.376deg);
+  --sidebar-primary-foreground: oklch(98.5% 0 0deg);
+  --sidebar-accent: oklch(26.9% 0 0deg);
+  --sidebar-accent-foreground: oklch(98.5% 0 0deg);
+  --sidebar-border: oklch(26.9% 0 0deg);
+  --sidebar-ring: oklch(43.9% 0 0deg);
+  --success: oklch(28% 0.1 200deg);
+  --warning: oklch(35% 0.08 70deg);
+  --error: oklch(45% 0.1 25deg);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-error: var(--error);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground min-h-[100vh] flex flex-col;
+  }
+}
+
+html {
+  opacity: 0;
+}
+
+html[data-theme='dark'],
+html[data-theme='light'] {
+  opacity: initial;
+}
+
+/* ------------------------------------------------------------------ */
+/* UltimaPress templates                                               */
+/* Switched from Site Settings > Design. Colours and fonts come from   */
+/* --up-primary, --up-accent, --up-font-heading and --up-font-body,    */
+/* which the root layout sets from Site Settings.                      */
+/* ------------------------------------------------------------------ */
+
+html[data-template] {
+  --primary: var(--up-primary);
+  --primary-foreground: oklch(100% 0 0deg);
+  --ring: var(--up-primary);
+}
+
+body {
+  font-family: var(--up-font-body);
+}
+
+h1,
+h2,
+h3,
+h4,
+.up-heading {
+  font-family: var(--up-font-heading);
+}
+
+.prose a,
+.up-link {
+  color: var(--up-primary);
+}
+
+.up-accent {
+  color: var(--up-accent);
+}
+
+.up-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--radius);
+  background: var(--up-primary);
+  color: #fff;
+  font-weight: 600;
+  transition: opacity 0.15s ease;
+}
+.up-btn:hover {
+  opacity: 0.88;
+}
+.up-btn-outline {
+  background: transparent;
+  color: var(--foreground);
+  border: 1px solid var(--border);
+}
+
+/* Modern bright: soft corners, airy, friendly */
+html[data-template='bright'] {
+  --radius: 0.875rem;
+}
+
+/* Luxury editorial: serif-led, warm paper, sharp edges, generous spacing */
+html[data-template='editorial'] {
+  --radius: 0;
+  --background: oklch(98.4% 0.008 85deg);
+  --card: oklch(96% 0.012 85deg);
+  --border: oklch(88% 0.012 85deg);
+}
+html[data-template='editorial'] h1,
+html[data-template='editorial'] h2 {
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+html[data-template='editorial'] .up-btn {
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 0.8rem;
+}
+
+/* Dark premium: always dark, glowing accent */
+html[data-template='dark'],
+html[data-template='dark'][data-theme='light'] {
+  color-scheme: dark;
+  --background: oklch(14% 0.01 265deg);
+  --foreground: oklch(97% 0 0deg);
+  --card: oklch(19% 0.012 265deg);
+  --card-foreground: oklch(97% 0 0deg);
+  --popover: oklch(17% 0.01 265deg);
+  --popover-foreground: oklch(97% 0 0deg);
+  --muted: oklch(24% 0.01 265deg);
+  --muted-foreground: oklch(72% 0 0deg);
+  --secondary: oklch(24% 0.01 265deg);
+  --secondary-foreground: oklch(97% 0 0deg);
+  --accent: oklch(24% 0.01 265deg);
+  --accent-foreground: oklch(97% 0 0deg);
+  --border: oklch(28% 0.01 265deg);
+  --input: oklch(28% 0.01 265deg);
+  --radius: 0.75rem;
+}
+html[data-template='dark'] .up-btn {
+  box-shadow: 0 0 24px color-mix(in oklab, var(--up-primary) 45%, transparent);
+}
+html[data-template='dark'] .up-accent {
+  text-shadow: 0 0 18px color-mix(in oklab, var(--up-accent) 40%, transparent);
+}
+
+/* Swiss bold: grid, heavy type, no rounding, high contrast */
+html[data-template='swiss'] {
+  --radius: 0;
+  --border: oklch(15% 0 0deg);
+}
+html[data-template='swiss'] h1,
+html[data-template='swiss'] h2,
+html[data-template='swiss'] h3 {
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+}
+html[data-template='swiss'] .up-btn {
+  background: var(--foreground);
+  color: var(--background);
+}
+
+/* Forms built with the form builder: a calm, roomy card that suits every template. */
+.up-form-card {
+  max-width: 52rem;
+  margin-inline: auto;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: calc(var(--radius) * 1.6);
+  padding: clamp(1.5rem, 4vw, 3rem);
+  box-shadow: 0 30px 60px -40px rgb(0 0 0 / 0.35);
+}
+.up-form-fields {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem 1.5rem;
+  margin-bottom: 2rem;
+}
+.up-form-field {
+  flex: 1 1 100%;
+  min-width: min(100%, 14rem);
+}
+.up-form label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+.up-form .required {
+  color: var(--up-accent);
+}
+.up-form input:not([type='checkbox']):not([type='radio']),
+.up-form textarea,
+.up-form select,
+.up-form button[role='combobox'] {
+  width: 100%;
+  min-height: 3.25rem;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--background);
+  font-size: 1rem;
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+.up-form textarea {
+  min-height: 8rem;
+}
+.up-form input:focus,
+.up-form textarea:focus,
+.up-form select:focus,
+.up-form button[role='combobox']:focus {
+  outline: none;
+  border-color: var(--up-primary);
+  box-shadow: 0 0 0 4px color-mix(in oklab, var(--up-primary) 18%, transparent);
+}
+.up-form-submit {
+  width: 100%;
+  padding-block: 1.1rem;
+  font-size: 1.05rem;
+}
+.up-form-done {
+  text-align: center;
+  padding: 2rem 0;
+}
+
+/* Keep the footer logo and links light on the brand-colour band, in every template. */
+.up-footer a,
+.up-footer .up-heading,
+.up-footer h3 {
+  color: inherit;
+}
+.up-footer nav a:hover,
+.up-footer li a:hover {
+  color: #fff;
+}

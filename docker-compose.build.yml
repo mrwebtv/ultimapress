@@ -1,0 +1,9 @@
+# Use with the main compose file to build UltimaPress from this folder instead of
+# pulling the ready-made image (for sites you have customised with Claude):
+#   docker compose -f docker-compose.yml -f docker-compose.build.yml up -d --build
+# install.sh and update.sh do this for you.
+services:
+  app:
+    image: ultimapress-local:latest
+    build:
+      context: .

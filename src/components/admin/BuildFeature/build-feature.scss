@@ -1,0 +1,194 @@
+/* "Build a feature" page. Colours come from the brand tokens in src/app/(payload)/custom.scss. */
+.up-build {
+  padding: 8px 0 64px;
+  font-family: var(--font-body);
+  color: var(--up-ink);
+
+  &__head {
+    max-width: 720px;
+    margin-bottom: 32px;
+    h1 {
+      margin: 0 0 12px;
+      font-size: clamp(32px, 4vw, 48px);
+      line-height: 1.05;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+    }
+  }
+  &__eyebrow {
+    margin: 0 0 8px;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--up-accent);
+  }
+  &__lead {
+    margin: 0;
+    font-size: 17px;
+    line-height: 1.55;
+    color: var(--up-muted);
+  }
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+    align-items: start;
+    @media (max-width: 1024px) {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+  &__card {
+    background: var(--up-card);
+    border: 1px solid var(--up-line);
+    border-radius: var(--up-radius-l);
+    box-shadow: var(--up-shadow);
+    padding: 24px;
+    h2 {
+      margin: 0 0 16px;
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+  }
+  &__sub {
+    margin: -8px 0 16px;
+    font-size: 14px;
+    color: var(--up-muted);
+  }
+  &__steps {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    counter-reset: step;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    li {
+      counter-increment: step;
+      position: relative;
+      padding-left: 48px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 4px;
+      &::before {
+        content: counter(step);
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        display: grid;
+        place-items: center;
+        font-size: 14px;
+        font-weight: 700;
+        color: #fff;
+        background-image: var(--up-gradient-cool);
+      }
+    }
+    strong {
+      font-size: 16px;
+      font-weight: 700;
+    }
+    span {
+      font-size: 14px;
+      line-height: 1.5;
+      color: var(--up-muted);
+    }
+    code {
+      font-size: 13px;
+      padding: 2px 6px;
+      border-radius: 6px;
+      background: var(--up-canvas);
+      color: var(--up-ink);
+    }
+  }
+  &__link {
+    margin-top: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--up-accent);
+    &:hover {
+      color: var(--up-accent-strong);
+    }
+  }
+  &__prompt {
+    margin-top: 6px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 8px 8px 12px;
+    border: 1px solid var(--up-line);
+    border-radius: var(--up-radius);
+    background: var(--up-canvas);
+    code {
+      flex: 1;
+      min-width: 0;
+      padding: 0;
+      background: none;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
+  &__copy {
+    flex: 0 0 auto;
+    min-height: 36px;
+    padding: 0 14px;
+    border: 1px solid var(--up-line);
+    border-radius: 10px;
+    background: var(--up-card);
+    color: var(--up-ink);
+    font: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    &:hover {
+      border-color: var(--up-accent);
+      color: var(--up-accent);
+    }
+  }
+  &__ideas {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    li {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 12px 0;
+      border-top: 1px solid var(--up-line);
+      &:first-child {
+        border-top: 0;
+        padding-top: 0;
+      }
+    }
+    div {
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    strong {
+      font-size: 15px;
+      font-weight: 700;
+    }
+    span {
+      font-size: 14px;
+      line-height: 1.45;
+      color: var(--up-muted);
+    }
+  }
+  &__foot {
+    margin: 24px 0 0;
+    font-size: 14px;
+    color: var(--up-muted);
+    strong {
+      color: var(--up-ink);
+    }
+  }
+}

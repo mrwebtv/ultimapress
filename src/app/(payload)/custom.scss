@@ -1,0 +1,308 @@
+/*
+ * UltimaPress admin skin.
+ * Brand colours come from the UltimaPress logo: cyan, blue, violet, magenta, pink,
+ * orange and yellow. Light and dark modes are both first-class; switch them at the
+ * bottom of the Spine (the menu, src/components/admin/Spine). Payload's own styles sit in @layer payload-default, so these
+ * plain rules win.
+ */
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+:root {
+  /* Brand */
+  --up-cyan: #00e0ff;
+  --up-blue: #1f3bff;
+  --up-violet: #7b2bff;
+  --up-magenta: #f21cd9;
+  --up-pink: #ff2d6b;
+  --up-orange: #ff7a1a;
+  --up-yellow: #ffc21f;
+  --up-gradient: linear-gradient(100deg, #00e0ff 0%, #1f3bff 24%, #8a2bff 46%, #f21cd9 64%, #ff4d4d 82%, #ffc21f 100%);
+  --up-gradient-cool: linear-gradient(135deg, #1f3bff 0%, #8a2bff 55%, #f21cd9 100%);
+
+  /* Light mode */
+  --up-accent: #7b2bff;
+  --up-accent-strong: #6418f0;
+  --up-accent-soft: #f1eaff;
+  --up-ink: #15121f;
+  --up-muted: #6e6a80;
+  --up-canvas: #f6f5fb;
+  --up-side: #ffffff;
+  --up-line: #e8e5f2;
+  --up-card: #ffffff;
+  --up-hover: #f4f1fc;
+  --up-radius: 12px;
+  --up-radius-l: 18px;
+  --up-shadow: 0 1px 2px rgba(21, 18, 31, 0.04), 0 4px 16px rgba(21, 18, 31, 0.04);
+  --up-shadow-hover: 0 10px 34px rgba(80, 30, 160, 0.12);
+  --font-body: 'Plus Jakarta Sans', 'Inter', ui-sans-serif, system-ui, sans-serif;
+  --style-radius-s: 8px;
+  --style-radius-m: 10px;
+  --style-radius-l: 14px;
+}
+
+html[data-theme='dark'] {
+  --up-accent: #a274ff;
+  --up-accent-strong: #b88fff;
+  --up-accent-soft: rgba(138, 43, 255, 0.18);
+  --up-ink: #f4f1fb;
+  --up-muted: #a29cb8;
+  --up-canvas: #0b0816;
+  --up-side: #100c1d;
+  --up-line: #251e3a;
+  --up-card: #151025;
+  --up-hover: #1d1631;
+  --up-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --up-shadow-hover: 0 12px 36px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(162, 116, 255, 0.25);
+
+  /* Payload's own surfaces, tinted to match */
+  --theme-bg: #0b0816;
+  --theme-input-bg: #120e21;
+  --theme-elevation-0: #0b0816;
+  --theme-elevation-50: #151025;
+  --theme-elevation-100: #1b1530;
+  --theme-elevation-150: #251e3a;
+  --theme-elevation-200: #2e2647;
+}
+
+html[data-theme='light'] {
+  --theme-bg: #f6f5fb;
+  --theme-elevation-0: #ffffff;
+  --theme-elevation-50: #f6f5fb;
+}
+
+body {
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  background: var(--up-canvas);
+}
+
+/* Canvas: soft colour glows from the logo palette */
+.template-default,
+.template-default__wrap {
+  background-color: var(--up-canvas);
+}
+.template-default__wrap {
+  background-image:
+    radial-gradient(900px 420px at 100% -10%, color-mix(in oklab, var(--up-magenta) 9%, transparent), transparent 70%),
+    radial-gradient(800px 420px at 30% -20%, color-mix(in oklab, var(--up-cyan) 8%, transparent), transparent 70%);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+html[data-theme='dark'] .template-default__wrap {
+  background-image:
+    radial-gradient(900px 480px at 100% -10%, rgba(242, 28, 217, 0.12), transparent 70%),
+    radial-gradient(800px 480px at 30% -20%, rgba(31, 59, 255, 0.14), transparent 70%);
+}
+
+/* Login logo */
+.up-brand-logo {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  img {
+    width: 84px;
+    height: auto;
+  }
+  span {
+    font-size: 32px;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    color: var(--up-ink);
+  }
+}
+
+/* Rich text editor in the same font as the rest of the admin */
+.rich-text-lexical .ContentEditable__root,
+.rich-text-lexical .editor-scroller,
+.rich-text-lexical [contenteditable] {
+  font-family: var(--font-body);
+}
+.rich-text-lexical .fixed-toolbar {
+  border-radius: var(--up-radius) var(--up-radius) 0 0;
+}
+/* ---------- Header and page titles ---------- */
+.app-header__bg {
+  background: transparent;
+}
+/* No breadcrumb and no account icon in the top bar: each page already shows its
+   own title, and the avatar at the bottom of the Spine opens the account. */
+.app-header .step-nav,
+.app-header__gradient-placeholder,
+.app-header__account {
+  display: none;
+}
+.doc-header__title,
+.list-header__title,
+.render-title,
+.collection-list h1,
+.global-edit h1 {
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--up-ink);
+}
+
+/* ---------- Buttons ---------- */
+.btn {
+  border-radius: 10px;
+  font-weight: 600;
+  transition: transform 0.12s, box-shadow 0.12s, background 0.12s;
+}
+.btn--style-primary {
+  --bg-color: transparent;
+  --hover-bg: transparent;
+  --color: #fff;
+  --hover-color: #fff;
+  background-image: var(--up-gradient-cool);
+  box-shadow: 0 6px 18px rgba(123, 43, 255, 0.28);
+}
+.btn--style-primary:hover {
+  box-shadow: 0 8px 24px rgba(242, 28, 217, 0.3);
+}
+.btn--style-primary:hover {
+  transform: translateY(-1px);
+}
+.btn--style-secondary {
+  --bg-color: var(--up-card);
+  --hover-bg: var(--up-canvas);
+  --color: var(--up-ink);
+  box-shadow: inset 0 0 0 1px var(--up-line);
+}
+.pill {
+  border-radius: 999px;
+}
+/* "Create New" next to page titles: a dark button, like hPanel */
+.list-create-new-doc__create-new-button,
+.list-header .btn--style-pill,
+.doc-header .btn--style-pill {
+  --bg-color: transparent;
+  --hover-bg: transparent;
+  --color: #fff;
+  --hover-color: #fff;
+  background-image: var(--up-gradient-cool);
+  border-radius: 10px;
+  padding-inline: 14px;
+}
+/* Search bar and filter pills */
+.search-filter,
+.list-controls .search-filter {
+  background: var(--up-card);
+  border: 1px solid var(--up-line);
+  border-radius: var(--up-radius);
+  box-shadow: var(--up-shadow);
+}
+.list-controls .pill,
+.list-controls__buttons .pill {
+  --bg-color: var(--up-canvas);
+}
+
+/* ---------- Cards, panels, lists ---------- */
+.card {
+  border-radius: var(--up-radius-l);
+  border: 1px solid var(--up-line);
+  background: var(--up-card);
+  box-shadow: var(--up-shadow);
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+.card--has-onclick:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--up-shadow-hover);
+}
+.table {
+  background: var(--up-card);
+  border: 1px solid var(--up-line);
+  border-radius: var(--up-radius-l);
+  box-shadow: var(--up-shadow);
+  padding: 6px 12px;
+}
+.table table {
+  border-collapse: separate;
+  border-spacing: 0;
+}
+.table thead th {
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--up-muted);
+  background: transparent;
+}
+.table tbody tr,
+.table tbody tr:nth-child(odd),
+.table tbody tr:nth-child(odd) td {
+  background: transparent;
+}
+.table tbody td {
+  border-top: 1px solid var(--up-line);
+}
+.table tbody tr:first-child td {
+  border-top: 0;
+}
+.table td a {
+  font-weight: 600;
+  color: var(--up-ink);
+  text-decoration: none;
+}
+.table td a:hover {
+  color: var(--up-accent);
+}
+.table tbody tr:hover td {
+  background: var(--up-canvas);
+}
+.table td,
+.table th {
+  border-color: var(--up-line);
+}
+.search-bar,
+.list-controls__wrap {
+  border-radius: var(--up-radius);
+}
+
+/* Edit screens: the form sits on a white card, the sidebar on the canvas */
+.collection-edit__main,
+.global-edit__main,
+.document-fields__main {
+  background: var(--up-card);
+}
+.doc-controls {
+  background: color-mix(in oklab, var(--up-card) 92%, transparent);
+  backdrop-filter: blur(8px);
+}
+.tabs-field__tab-button--active {
+  color: var(--up-ink);
+}
+.tabs-field__tab-button--active::after,
+.tabs-field__tab-button:hover::after {
+  background: var(--up-accent);
+}
+.field-type input,
+.field-type textarea,
+.react-select .rs__control {
+  border-radius: 10px;
+}
+.field-type input:focus,
+.field-type textarea:focus {
+  box-shadow: 0 0 0 3px var(--up-accent-soft);
+  border-color: var(--up-accent);
+}
+.blocks-field__row,
+.array-field__row,
+.collapsible {
+  border-radius: var(--up-radius);
+}
+
+/* The default collection tiles: our dashboard replaces them */
+.dashboard .modular-dashboard,
+.dashboard > .up-dash ~ div {
+  display: none;
+}
+
+/* ---------- Login ---------- */
+.template-minimal {
+  background: var(--up-canvas);
+}
+.template-minimal__wrap {
+  background: var(--up-card);
+  border-radius: 20px;
+  padding: 40px;
+  box-shadow: var(--up-shadow-hover);
+}

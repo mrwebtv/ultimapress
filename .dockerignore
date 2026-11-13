@@ -1,0 +1,13 @@
+node_modules
+.next
+.env
+.env.*
+!.env.example
+public/media
+backups
+*.zip
+.git
+test-results
+playwright-report
+.ultimapress-deploy.json
+*.tgz

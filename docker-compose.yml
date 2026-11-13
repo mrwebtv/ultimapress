@@ -1,0 +1,121 @@
+# UltimaPress, standalone compose file.
+# Works with Hostinger Docker Manager "Compose from URL" and the Deploy on Hostinger
+# button: nothing else from the repo is needed.
+#
+# Optional variables (set them in Docker Manager before deploying):
+#   DOMAIN             your domain, pointed at the VPS IP; enables trusted HTTPS
+#   POSTGRES_PASSWORD  database password (the database is never exposed outside the server)
+#   HTTP_PORT / HTTPS_PORT  default 80 / 443
+#   SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS, SMTP_FROM_ADDRESS  to send real emails
+services:
+  app:
+    image: ghcr.io/mrwebtv/ultimapress:latest
+    restart: unless-stopped
+    environment:
+      DATABASE_URL: postgres://ultimapress:${POSTGRES_PASSWORD:-ultimapress-change-me}@db:5432/ultimapress
+      DOMAIN: ${DOMAIN:-}
+      SITE_URL: ${SITE_URL:-}
+      SMTP_HOST: ${SMTP_HOST:-}
+      SMTP_PORT: ${SMTP_PORT:-587}
+      SMTP_USER: ${SMTP_USER:-}
+      SMTP_PASS: ${SMTP_PASS:-}
+      SMTP_FROM_ADDRESS: ${SMTP_FROM_ADDRESS:-}
+      SMTP_FROM_NAME: ${SMTP_FROM_NAME:-UltimaPress}
+    volumes:
+      - media:/app/media
+      - appdata:/app/data
+    healthcheck:
+      test: ['CMD-SHELL', 'wget -qO- http://127.0.0.1:3000/robots.txt >/dev/null || exit 1']
+      interval: 30s
+      timeout: 5s
+      start_period: 60s
+      retries: 3
+    depends_on:
+      db:
+        condition: service_healthy
+
+  db:
+    image: postgres:17-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ultimapress
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-ultimapress-change-me}
+      POSTGRES_DB: ultimapress
+    volumes:
+      - db:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U ultimapress -d ultimapress']
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  # Nightly database backup at 03:00 and a weekly media archive, kept 14 days.
+  backup:
+    image: postgres:17-alpine
+    restart: unless-stopped
+    environment:
+      PGPASSWORD: ${POSTGRES_PASSWORD:-ultimapress-change-me}
+      TZ: ${TZ:-UTC}
+    volumes:
+      - backups:/backups
+      - media:/media:ro
+    entrypoint: ['/bin/sh', '-c']
+    command:
+      - |
+        mkdir -p /backups
+        echo "Backups: database daily at 03:00, media on Sundays, kept 14 days."
+        while true; do
+          now=$$(date +%s)
+          next=$$(date -d "$$(date +%Y-%m-%d) 03:00" +%s 2>/dev/null || echo $$((now + 86400)))
+          [ "$$next" -le "$$now" ] && next=$$((next + 86400))
+          sleep $$((next - now))
+          stamp=$$(date +%Y%m%d-%H%M)
+          if pg_dump -h db -U ultimapress -d ultimapress -Fc > /backups/db-$$stamp.dump.tmp; then
+            mv /backups/db-$$stamp.dump.tmp /backups/db-$$stamp.dump
+            echo "Saved db-$$stamp.dump"
+          else
+            rm -f /backups/db-$$stamp.dump.tmp
+            echo "Database backup failed"
+          fi
+          if [ "$$(date +%u)" = "7" ]; then
+            tar -czf /backups/media-$$stamp.tar.gz.tmp -C /media . && mv /backups/media-$$stamp.tar.gz.tmp /backups/media-$$stamp.tar.gz
+          fi
+          find /backups -name 'db-*.dump' -mtime +14 -delete
+          find /backups -name 'media-*.tar.gz' -mtime +28 -delete
+        done
+    depends_on:
+      db:
+        condition: service_healthy
+
+  caddy:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    ports:
+      - '${HTTP_PORT:-80}:80'
+      - '${HTTPS_PORT:-443}:443'
+      - '${HTTPS_PORT:-443}:443/udp'
+    # With DOMAIN set: trusted HTTPS certificate (Let's Encrypt).
+    # Without it: HTTP and HTTPS on the server IP, with a self-signed certificate.
+    environment:
+      DOMAIN: ${DOMAIN:-}
+    entrypoint: ['/bin/sh', '-c']
+    command:
+      - |
+        if [ -n "$$DOMAIN" ]; then
+          exec caddy reverse-proxy --from "$$DOMAIN" --to app:3000
+        fi
+        printf ':80 {\n\treverse_proxy app:3000\n}\n:443 {\n\ttls internal {\n\t\ton_demand\n\t}\n\treverse_proxy app:3000\n}\n' > /etc/caddy/Caddyfile
+        exec caddy run --config /etc/caddy/Caddyfile --adapter caddyfile
+    volumes:
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - app
+
+volumes:
+  db:
+  media:
+  appdata:
+  backups:
+  caddy_data:
+  caddy_config:
